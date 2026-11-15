@@ -1,2 +1,17 @@
 export MSYS_NO_PATHCONV=1
 
+**************************************
+from pathlib import Path
+import hashlib
+
+files_dir = Path("demo-data/files")
+files = sorted(path for path in files_dir.iterdir() if path.is_file())
+if not files:
+    raise FileNotFoundError(f"No files found in {files_dir.resolve()}")
+
+path = files[0]
+data = path.read_bytes()
+fingerprint = hashlib.sha256(data).hexdigest()
+
+print(f"File: {path}")
+print(f"SHA-256: {fingerprint}")
